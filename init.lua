@@ -314,14 +314,18 @@ minetest.register_tool("emeralds:emerald_shovel", {
 })
 
 -- Emerald Hoe
---if minetest.get_modpath("farming") then
---   farming.register_hoe(":emeralds:hoe_emeralds", {
---	description = "Emerald Hoe",
---	inventory_image = "emerald_hoe.png",
---	max_uses = 440,
---	material = "emeralds:emerald_crystal_piece"
---})
---end
+local hoe_desc = S("Emerald Hoe")
+if farm then
+   farming.register_hoe("emeralds:emerald_hoe", {
+	description = toolranks_loaded and toolranks.create_description(hoe_desc) or hoe_desc,
+	inventory_image = "emerald_hoe.png",
+	max_uses = 440,
+	material = "emeralds:emerald_crystal_piece",
+	-- toolranks support
+	original_description = toolranks_loaded and sword_desc or nil,
+	after_use = toolranks_loaded and toolranks.new_afteruse or nil,
+})
+end
 
 -- Emerald Sword
 local sword_desc = S("Emerald Sword")
