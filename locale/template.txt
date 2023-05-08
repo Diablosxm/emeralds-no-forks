@@ -1,0 +1,11 @@
+# textdomain: emeralds
+Emerald Crystal=
+Emerald Crystal Piece=
+Emerald Ore=
+Emerald Block=
+Chiseled Emerald=
+Emerald Pillar=
+Emerald Pickaxe=
+Emerald Axe=
+Emerald Shovel=
+Emerald Sword=

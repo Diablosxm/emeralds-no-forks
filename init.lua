@@ -1,6 +1,6 @@
 local S = minetest.get_translator("emeralds")
 local settings = Settings(minetest.get_modpath("emeralds").."/settings.txt")
-local tr = minetest.get_modpath("toolranks")
+local toolranks_loaded = minetest.get_modpath("toolranks")
 local farm = minetest.get_modpath("farming")
 
 --
@@ -9,11 +9,11 @@ local farm = minetest.get_modpath("farming")
 
 --  Emerald Crystal
 minetest.register_craftitem("emeralds:emerald_crystal", {
-	description = "Emerald Crystal",
+	description = S("Emerald Crystal"),
 	inventory_image = "emerald_crystal_full.png",
 })
 minetest.register_craftitem("emeralds:emerald_crystal_piece", {
-	description = "Emerald Crystal Piece",
+	description = S("Emerald Crystal Piece"),
 	inventory_image = "emerald_crystal_piece.png",
 })
 
@@ -23,7 +23,7 @@ minetest.register_craftitem("emeralds:emerald_crystal_piece", {
 
 --  Ore
 minetest.register_node("emeralds:emerald_ore", {
-	description = "Emerald Ore",
+	description = S("Emerald Ore"),
 	tiles = {"default_stone.png^emerald_ore.png"},
 	groups = {cracky=3, stone=1},
 	drop = 'emeralds:emerald_crystal',
@@ -43,7 +43,7 @@ minetest.register_ore({
 
 -- Emerald Block
 minetest.register_node("emeralds:block", {
-	description = "Emerald Block",
+	description = S("Emerald Block"),
 	tiles = {"emerald_block.png"},
 	groups = {cracky=3, oddly_breakable_by_hand=1},
 	sounds = default.node_sound_glass_defaults(),
@@ -51,7 +51,7 @@ minetest.register_node("emeralds:block", {
 
 -- Chiseled Emerald
 minetest.register_node("emeralds:chiseled", {
-	description = "Chiseled Emerald",
+	description = S("Chiseled Emerald"),
 	tiles = {"emerald_chiseled.png"},
 	groups = {cracky=3, oddly_breakable_by_hand=1},
 	sounds = default.node_sound_glass_defaults(),
@@ -59,7 +59,7 @@ minetest.register_node("emeralds:chiseled", {
 
 -- Emerald Pillar
 minetest.register_node("emeralds:pillar", {
-	description = "Emerald Pillar",
+	description = S("Emerald Pillar"),
 	paramtype2 = "facedir",
 	tiles = {"emerald_pillar_top.png", "emerald_pillar_top.png", "emerald_pillar_side.png"},
 	groups = {cracky=3, oddly_breakable_by_hand=1},
@@ -257,8 +257,9 @@ end
 
 
 -- Emerald Pickaxe
+local pickaxe_desc = S("Emerald Pickaxe")
 minetest.register_tool("emeralds:emerald_pickaxe", {
-	description = "Emerald Pickaxe",
+	description = toolranks_loaded and toolranks.create_description(pickaxe_desc) or pickaxe_desc,
 	inventory_image = "emerald_pickaxe.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -269,11 +270,15 @@ minetest.register_tool("emeralds:emerald_pickaxe", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	-- toolranks support
+	original_description = toolranks_loaded and pickaxe_desc or nil,
+	after_use = toolranks_loaded and toolranks.new_afteruse or nil,
 })
 
 -- Emerald Axe
+local axe_desc = S("Emerald Axe")
 minetest.register_tool("emeralds:emerald_axe", {
-	description = "Emerald Axe",
+	description = toolranks_loaded and toolranks.create_description(axe_desc) or axe_desc,
 	inventory_image = "emerald_axe.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -284,11 +289,15 @@ minetest.register_tool("emeralds:emerald_axe", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	-- toolranks support
+	original_description = toolranks_loaded and axe_desc or nil,
+	after_use = toolranks_loaded and toolranks.new_afteruse or nil,
 })
 
 -- Emerald Shovel
+local shovel_desc = S("Emerald Shovel")
 minetest.register_tool("emeralds:emerald_shovel", {
-	description = "Emerald Shovel",
+	description = toolranks_loaded and toolranks.create_description(shovel_desc) or shovel_desc,
 	inventory_image = "emerald_shovel.png",
 	tool_capabilities = {
 		full_punch_interval = 1.1,
@@ -299,6 +308,9 @@ minetest.register_tool("emeralds:emerald_shovel", {
 		damage_groups = {fleshy=3},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	-- toolranks support
+	original_description = toolranks_loaded and shovel_desc or nil,
+	after_use = toolranks_loaded and toolranks.new_afteruse or nil,
 })
 
 -- Emerald Hoe
@@ -312,8 +324,9 @@ minetest.register_tool("emeralds:emerald_shovel", {
 --end
 
 -- Emerald Sword
+local sword_desc = S("Emerald Sword")
 minetest.register_tool("emeralds:emerald_sword", {
-	description = "Emerald Sword",
+	description = toolranks_loaded and toolranks.create_description(sword_desc) or sword_desc,
 	inventory_image = "emerald_sword.png",
 	tool_capabilities = {
 		full_punch_interval = 0.8,
@@ -324,16 +337,12 @@ minetest.register_tool("emeralds:emerald_sword", {
 		damage_groups = {fleshy=6},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	-- toolranks support
+	original_description = toolranks_loaded and sword_desc or nil,
+	after_use = toolranks_loaded and toolranks.new_afteruse or nil,
 })
 
---
--- toolranks
---
-
-if tr then
-	toolranks.add_tool("emeralds:emerald_sword")
-	toolranks.add_tool("emeralds:emerald_pickaxe")
-	toolranks.add_tool("emeralds:emerald_axe")
-	toolranks.add_tool("emeralds:emerald_shovel")
+-- log
+if minetest.settings:get_bool("log_mods") then
+	minetest.log("action","[Emerald Items] Loaded.")
 end
-
